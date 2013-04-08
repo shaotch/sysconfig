@@ -1,0 +1,17 @@
+android最顶层的目录结构如下：
+
+. 
+|-- Makefile        （全局的Makefile） 
+|-- bionic          （Bionic含义为仿生，这里面是一些基础的库的源代码） 
+|-- bootloader      （引导加载器） 
+|-- build           （build目录中的内容不是目标所用的代码，而是编译和配置所需要的脚本和工具） 
+|-- dalvik          （JAVA虚拟机） 
+|-- development     （程序开发所需要的模板和工具） 
+|-- external        （目标机器使用的一些库） 
+|-- frameworks      （应用程序的框架层） 
+|-- hardware        （与硬件相关的库） 
+|-- kernel          （Linux2.6的源代码） 
+|-- packages        （Android的各种应用程序） 
+|-- prebuilt        （Android在各种平台下编译的预置脚本） 
+|-- recovery        （与目标的恢复功能相关） 
+`-- system          （Android的底层的一些库)
