@@ -1,0 +1,246 @@
+=========================================
+>>> AndroidÏÂ´òÓ¡µ÷ÓÃÕ» ===
+=========================================
+
+1. Java²ãÈçºÎ´òÓ¡µ÷ÓÃÕ»£¿
+
+ÔÚÓÅ»¯AndroidÆô¶¯¹ı³ÌÊ±£¬Í¬ÊÂ¸ø³öÒ»ÖÖ´òÓ¡³öµ÷ÓÃÕ»µÄº¯Êı¡£·ÖÏíÒ»ÏÂ
+
+    java.util.Map<Thread, StackTraceElement[]> ts = Thread.getAllStackTraces();   
+        StackTraceElement[] ste = ts.get(Thread.currentThread());   
+            for (StackTraceElement s : ste) {   
+                        android.util.Slog.e("SS     ", s.toString()); //Õâ¸öÊÇandroid×Ô´øµÄ£¬Èç¹ûÃ»ÓĞ£¬ÓÃÆäËûµÄ´òÓ¡º¯ÊıÒ»Ñù   
+                            }  
+
+ÎªÁË´òÓ¡³öÔÚandroidÆô¶¯Ê±£¬ZygoteÆô¶¯µÄËùÓĞjavaÓ¦ÓÃ¡£ÔÚ
+
+    //frameworks/base/services/java/com/android/server/am/ActivityManagerService.java   
+    private final void startProcessLocked(ProcessRecord app, String hostingType, String hostingNameStr) {   
+                //debug add   
+                java.util.Map<Thread, StackTraceElement[]> ts = Thread.getAllStackTraces();   
+                        StackTraceElement[] ste = ts.get(Thread.currentThread());   
+                                for (StackTraceElement s : ste) {   
+                                                android.util.Slog.e("SS     ", s.toString());   
+                                                        }        
+                                    }
+
+¾Í¿ÉÒÔÔÚÖÕ¶ËÖĞÊ¹ÓÃÃüÁîlogcatÀ´²é¿´´òÓ¡³öµÄµ÷ÓÃÕ»ÁË¡£
+
+ 
+
+2. C/C++²ãÈçºÎ´òÓ¡µ÷ÓÃÕ»£¿
+
+Java¿ÉÒÔ·½±ãµÄ´òÓ¡º¯ÊıµÄµ÷ÓÃÕ»¡£C/C++Ò²¿ÉÒÔ¡£
+ÎªÁËÏÔÊ¾ÔÚvm/Misc.cppÖĞË­µ÷ÓÃÁËº¯ÊıdvmAllocRegion£¬ÔÚÕâ¸öº¯ÊıÖĞ¼ÓÈëÏÂÃæºìÉ«´úÂë£º
+#include <utils/CallStack.h>
+...
+
+void *dvmAllocRegion(size_t byteCount, int prot, const char *name) 
+{
+        ...
+#ifdef _ARM_
+                LOGW("name=%s", name);
+            android::CallStack stack;
+                stack.update(1, 100);
+                    stack.dump("");
+#endif
+                    ...
+}
+
+ÔÚvm/Dvm.mkÖĞ£¬¼ÓÈë£º
+  LOCAL_CFLAGS += -D_ARM_
+    LOCAL_SHARED_LIBRARIES += libutils
+
+    "mmm dalvik" µÃµ½libdvm.so¡£È»ºó
+    adb root
+    adb remount
+    adb push libdvm.so /system/lib
+    adb reboot
+    ÏµÍ³ÖØÆôºó£¬ĞÂµÄlibdvm.so¾ÍÍ¶ÈëÊ¹ÓÃÁË¡£
+
+
+=========================================
+>>> ÈçºÎÔÚANDROID JNI µÄC++ÖĞ´òLog ===
+=========================================
+
+µÚÒ»²½£ºÔÚ¶ÔÓ¦µÄmkÎÄ¼şÖĞ¼ÓÈë:LOCAL_LDLIBS := -llog
+µÚ¶ş²½£ºÔÚÒªÊ¹ÓÃLOGµÄcppÎÄ¼şÖĞ¼ÓÈë£º
+    #include <android/log.h>
+    #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, "keymatch", __VA_ARGS__)
+
+µÚÈı²½£ºÕâÑù¾Í¿ÉÒÔÊ¹ÓÃÁË£ºLOGD("ÎÒÒª¿´µ½µÄµ÷ÊÔĞÅÏ¢^_^");
+ÕâÑù£¬ÔÚlogcat¶Ë¿´µ½µÄÊä³öÊÇ£º
+D/keymatch£¨ 32£©:ÎÒÒª¿´µ½µÄµ÷ÊÔĞÅÏ¢^_^
+Èç¹ûÏë¸Ä±äÊä³öÖĞµÄ¸÷ÏîÄÚÈİ£¬¿ÉÒÔ²Î¿¼ÏàÓ¦ÑÕÉ«µÄ±êÊ¾£¬±ÈÈç£¬Èç¹ûÏë¶¨ÒåLOGE£¬¾Í¿ÉÒÔ°ÑÉÏÃæµÄANDROID_LOG_DEBUG¸Ä³ÉANDROID_LOG_ERROR£¬Í¬Àí£¬LOGIÉñÂíµÄÒ²¶¼ÒÔ´ËÀàÍÆ£º
+
+
+    #define LOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, "ProjectName", __VA_ARGS__) 
+    #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG , "ProjectName", __VA_ARGS__)
+    #define LOGI(...) __android_log_print(ANDROID_LOG_INFO  , "ProjectName", __VA_ARGS__)
+    #define LOGW(...) __android_log_print(ANDROID_LOG_WARN  , "ProjectName", __VA_ARGS__)
+    #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR  , "ProjectName", __VA_ARGS__)
+
+   * Ò²¿ÉÒÔÖ±½ÓÊ¹ÓÃ__android_log_printº¯Êı£¬¶ø²»define¶¨ÒåLOGxxx.
+   * ²Î¿¼ÕâÆªÎÄÕÂ£º ¡¶ÔÚandroid Êä³ölog ĞÅÏ¢ ÓÃÓÚµ÷ÊÔ¡·
+   * ÁíÍâ£¬ÓĞÎÄÕÂ³Æ´Ë·½·¨ÔÚ±àÒë¶¯Ì¬¿âµÄÊ±ºò¿ÉÄÜ»á³öÎÊÌâ£¬»áÌáÊ¾cannot find -llogµÄ´íÎó¡£ÒâË¼ÊÇÕÒ²»µ½liblog.soÕâ¸ö¿âÎÄ¼ş¡£
+Òò´ËĞèÒª¸Ä³É LOCAL_LDLIBS:=  -L$(SYSROOT)/usr/lib -llog ²Å¿ÉÒÔÕı³£±àÒë¡£
+
+=================================================
+>>> FirewallD is not running >>> Add printer
+================================================
+Network printer detection needs services mdns, ipp, ipp-client and samba-client enabled on firewall.
+Do you get this message when you try to install a network printer in Ubuntu?
+Ubuntu has an authorisation bug, which causes this error when attempting to install a network printer using the ¿system settings¿ gui.
+The same problem installing a network printer in linux mint?
+The solution is simple.
+Open a terminal and type: system-config-printer
+And add a printer in the box that opens.
+Network printer.
+Find network printer.
+and voila! (without the hours googling why your router sees the printer but ubuntu doesn¿t).
+
+
+
+=======================================================
+>>> linux ÖĞÎÄÂÒÂëÎÊÌâ
+=======================================================
+ubuntu vimÖĞÎÄÂÒÂëÎÊÌâ       
+ 
+Ìí¼ÓÖĞÎÄ×Ö·û±àÂë£º
+$sudo vim /var/lib/locales/supported.d/local
+#Ìí¼ÓÏÂÃæµÄÖĞÎÄ×Ö·û¼¯
+zh_CN.GBK GBK
+zh_CN.GB2312 GB2312
+zh_CN.GB18030 GB18030
+Ê¹ÆäÉúĞ§£º
+$sudo dpkg-reconfigure locales
+
+
+=== vim:
+´ò¿ªvimµÄÅäÖÃÎÄ¼ş£¬Î»ÖÃÔÚ/etc/vim/vimrc
+ÔÚÆäÖĞ¼ÓÈë
+set fileencodings=utf-8,gb2312,gbk,gb18030
+set termencoding=utf-8
+set encoding=prc
+±£´æÍË³ö
+source /etc/vim/vimrc
+´ËÊ±vim¾ÍÄÜÕıÈ·ÏÔÊ¾ÖĞÎÄÁË¡£
+
+
+=== pdf:
+$sudo apt-get install xpdf-chinese-simplified xpdf-chinese-traditional #°²×°pdfµÄÖĞÎÄ×ÖÌå
+$sudo apt-get install poppler-data #°²×°½â¾öpdfÖĞÎÄÏÔÊ¾ÂÒÂëµÄÈí¼ş
+$cd /etc/fonts/conf.d 
+$sudo cp 49-sansserif.conf 49-sansserif.conf_backup #ÏÈ±¸·İÏÂ
+$sudo rm 49-sansserif.conf #É¾³ı
+ÔÚ´ò¿ªpdfÎÄ¼ş£¬¾ÍÄÜÄØ¸öÕı³£ÏÔÊ¾ÖĞÎÄÁË
+ 
+
+
+=== gedit£º
+ 
+geditĞŞ¸ÄÄ¬ÈÏÏÔÊ¾×Ö·û¼¯
+$sudo gconf-editor
+´ò¿ªµÄ½çÃæÖĞÑ¡Ôñapps->gedit2->preferences->encodings,Ìí¼ÓĞèÒªµÄ×Ö·û¼¯²¢ÒÆ¶¯µ½×îÉÏ·½£¬±£´æ¾Í¿ÉÒÔÁË¡£
+ 
+=== ÉèÖÃÄ¬ÈÏµÄ×Ö·û¼¯
+ 
+$sudo gedit /etc/environment
+#µÚ¶şĞĞÊÇÄ¬ÈÏ×Ö·û¼¯,ÉèÎªzh_CH.UTF-8
+LANG=zh_CH.UTF-8
+LANGUAGAE="zh_CN:zh:en_US:en"
+LANG=zh_CN.UTF-8 #²»ÄÜÑ¡ÔñGBK»òGB2312,ÖÕ¶Ë½çÃæÖĞÎÄ»áÂÒÂë
+LC_CTYLE=zh_CN.GB2312
+GST_ID3_TAG_ENCODING=GB2312
+$source /etc/environmentÊ¹ÆäÉúĞ§
+ 
+ËùÓĞµÄ×Ö·û¼¯ÔÚ/usr/share/i18n/charmapsÄ¿Â¼ÏÂ
+localeµÄÊéĞ´¸ñÊ½Îª£ºÓïÑÔ[_µØÓò[.×Ö·û¼¯][@ĞŞÕıÖµ]]
+
+·½·¨2£º
+ÓÉÓÚÔÚĞÂÏîÄ¿ÀïÓĞµ½ÁËÒ»µãµã¹ú¼Ê»¯µÄÅäÖÃ,ÓÃÓÚÔÚ³ö´íÌáÊ¾,²Ù×÷ÌáÊ¾µÈ·½ÃæµÄ,·¢ÏÖÔÚwindowsÏÂÄÜÕı³£ÏÔÊ¾³öÖĞÎÄ,µ«µ½ÁËlinux¾Í²»ÄÜÏÔÊ¾ÖĞÎÄÁË.ËÑË÷Ò»·­ºóËµÊÇlinuxµÄÖĞÎÄ»·¾³±äÁ¿µÄÎÊÌâ¹Ê¸ü¸ÄÖ®: 
+
+ÔÚÖÕ¶ËÀïÊäÈë:set 
+Java´úÂë  
+...  
+LANG=C  
+LANGUAGE=C  
+...  
+
+ÕâÊÇÄ¬ÈÏµÄÓïÑÔ±àÂë,Èç¹ûÒªÏÔÊ¾ÖĞÎÄµÄ»°¾Í¸ü½«Æä¸ü¸ÄÎªLANG=zh_CN,Ê×ÏÈµÚÒ»²½: 
+Java´úÂë  
+#:~ cp /usr/share/i18n/SUPPORTED /var/lib/locales/supported.d/local  
+
+µÚ¶ş²½: 
+Java´úÂë  
+vi /var/lib/locales/supported.d/local  
+
+±à¼­ÎÄ¼ş,É¾³ıÄã²»ÏëÒªµÄÓïÑÔÏµÁĞ.ÈçÎÒµÄÖ»Áôen¼°zhÏµµÄ 
+
+µÚÈı²½£ºÖØĞÂÉú³ÉlocaleÖ§³ÖÎÄ¼ş 
+Java´úÂë  
+sudo locale-gen --purge  
+
+´ËÊ±»áÖØĞÂÉú³ÉlocaleÎÄ¼ş,ÂıÂıµÈ´ıÒ»ÏÂÖÁÔËĞĞÍê³É. 
+
+µÚËÄ²½:ÉèÖÃlocaleÎÄ¼ş,ÔÚÖÕ¶ËÀïÊäÈëlocaleÃüÁîºó»Ø³µ,½«ÏÔÊ¾³öÀ´µÄÄÚÈİ¸´ÖÆ,È»ºóÔÙ´ò¿ª/etc/environmentÎÄ¼ş,½«ÄÚÈİÕ³ÌùÄ©Î².±£´æÍË³ö.ÈçÎÒµÄÊÇÕâÑùµÄ: 
+Java´úÂë  
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"  
+LANGUAGE="zh_CN:zh:en_US:en"  
+LC_ALL=zh_CN.UTF-8  
+LANG=zh_CN.UTF-8  
+GST_ID3_TAG_ENCODING=UTF-8  
+   
+LANG=zh_CN  
+LANGUAGE=zh_CN  
+LC_CTYPE="zh_CN"  
+LC_NUMERIC="zh_CN"  
+LC_TIME="zh_CN"  
+LC_COLLATE="zh_CN"  
+LC_MONETARY="zh_CN"  
+LC_MESSAGES="zh_CN"  
+LC_PAPER="zh_CN"  
+LC_NAME="zh_CN"  
+LC_ADDRESS="zh_CN"  
+LC_TELEPHONE="zh_CN"  
+LC_MEASUREMENT="zh_CN"  
+LC_IDENTIFICATION="zh_CN"  
+   
+LC_CTYPE=zh_CN.UTF-8  
+
+
+È»ºóÍË³öÖØĞÂµÇÂ¼,ÔÚÖÕ¶ËÀïÔÙÊäÈëlocale,»á·¢ÏÖLANG=CÒÑ¾­¸ü¸ÄÎªLANG=zh_CN.ÔÙ²é¿´ÏÂÍøÕ¾¾Í¿ÉÒÔ³É¹¦ÏÔÊ¾µ½ÖĞÎÄÁË. 
+
+Áí,ÓÉÓÚvi±à¼­Æ÷²»Ì«»áÓÃ,ÔÚubuntu servcrÏÂ»¹¿ÉÒÔÓÃpicoÕâ¸ö±à¼­Æ÷À´´úÌæ,ÖÁÓÚ×îºó·¢ÏÖ,¿ÉÄÜÇ°ÃæµÄÒ»¶şÈı²½¶¼²»ĞèÒª×ö,Ö»ĞèÒªµÚËÄ²½¼´¿ÉÍê³É.µ«ÕâÃ»¾­²âÊÔµÄ. 
+
+
+
+
+=== Java´úÂë  
+linux ÖĞÎÄÏÔÊ¾ÂÒÂë½â¾ö°ì·¨, ÆäÊµÊÇÓĞ¶àÖÖÇé¿öµÄ, ÓĞÒ»²¿·ÖÊÇÓÉÓÚÖÕ¶ËÄ¬ÈÏµÄÉèÖÃÔì³ÉµÄ  
+  
+vi /etc/sysconfig/i18n  
+  
+½«ÄÚÈİ¸ÄÎª  
+LANG=¡±zh_CN.GB18030¡å  
+LANGUAGE=¡±zh_CN.GB18030:zh_CN.GB2312:zh_CN¡±  
+SUPPORTED=¡±zh_CN.GB18030:zh_CN:zh:en_US.UTF-8:en_US:en¡±  
+SYSFONT=¡±lat0-sun16¡å  
+  
+ÕâÑùÖĞÎÄÔÚSSH,telnetÖÕ¶ËÒ»°ã¿ÉÒÔÕı³£ÏÔÊ¾ÁË¡£  
+  
+Èç¹û»¹ÊÇ²»ĞĞ£¬¿ÉÒÔÕâÃ´×ö£º  
+  
+1¡¢consoleÖÕ¶ËÂÒÂë  
+  
+ÔÚ/etc/profileÎÄ¼şµÄ×îºóÒ»ĞĞÌí¼ÓÈçÏÂÄÚÈİ£º  
+  
+export LC_ALL="zh_CN.GB18030"  
+  
+2¡¢xwindowÖÕ¶ËÂÒÂë  
+  
+ÔÚ/etc/sysconfig/i18nÎÄ¼şµÄ×îºóÒ»ĞĞÌí¼ÓÈçÏÂÄÚÈİ£º  
+  
+export LC_ALL="zh_CN.GB18030"  
+
+======================================================================
