@@ -1,0 +1,12 @@
+At present, there are two ways to get this fixed:
+
+(1) Modify /etc/default/locale
+    LANG="en_US.UTF-8"
+    LANGUAGE="en_US.UTF-8:"
+    This way is really good, no side effect with this change.
+
+
+(2) Add the following to /etc/environment
+
+    LC_CTYPE="zh_CN.UTF-8
+    **It will change you terminal output to Chinese.
