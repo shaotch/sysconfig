@@ -1,0 +1,15 @@
+== set terminal ignore case and ambiguous ==
+add the two lines to /etc/inputrc
+set completion-ignore-case on
+set show-all-if-ambiguous on
+
+*** to reload inputrc:
+    ctrl-x, ctrl-r
+
+== set default IME ==
+im-switch -z zh_CN -s fcitx
+
+== disable guest account ==
+add the line to /etc/lightdm/lightdm.conf:
+allow-guest=false
+
