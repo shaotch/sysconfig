@@ -13,3 +13,9 @@ im-switch -z zh_CN -s fcitx
 add the line to /etc/lightdm/lightdm.conf:
 allow-guest=false
 
+== Set count of workspace ==
+gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize <n>
+gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize <n>
+
+== Set removable device/storage mount automount
+gsettings set org.gnome.desktop.media-handling automount <true | false>
