@@ -1,0 +1,10 @@
+Lets make sure that you have your SSL installed and updated:
+
+sudo apt-get update
+sudo apt-get install libssl1.0.0 libssl-dev
+Now lets fix the naming of the file by creating a link:
+
+cd /lib/x86_64-linux-gnu
+sudo ln -s libssl.so.1.0.0 libssl.so.10
+sudo ln -s libcrypto.so.1.0.0 libcrypto.so.10
+And finally, lets inform the developer about this flaw so he can fix it :)

@@ -1,5 +1,6 @@
 This file is saying how fixed the GPG errors like:
-    W: GPG error: http://archive precise Release: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY C2518248EEA14886'
+    W: GPG error: http://archive precise Release: The following signatures couldn't
+    be verified because the public key is not available: NO_PUBKEY C2518248EEA14886'
 
 The fix is:
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886

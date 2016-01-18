@@ -7,7 +7,7 @@ svn update(up) //update local files;
 svn lock <file> // lock the <file> to edit;
 svn commit [-m | --message "message content"] //commit your change to svn server;
 
-== repo ==cd 
+== repo ==cd
 repo sync  // make local source-code up to date;
 repo start <branch-name> <--all | project-name>  // Create a new branch for specified project(s);
 repo abandon <branch-name>  //
@@ -19,7 +19,7 @@ git show [commit-id]  // display the diff of the latest commit; or the specified
 git log  // display all the commit logs;
 
 git remote -v  // check the configuration of git "fetch" and "push" server;
-git cherry-pick -x <commit-id> // Merge 
+git cherry-pick -x <commit-id> // Merge
 git commit --amend --reset-author  // commit and change the commit's author to myself;
 git push lab126 HEAD:refs/for/ics_mr1 // push local patch to gerrit server for review;
 

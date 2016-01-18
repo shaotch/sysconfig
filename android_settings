@@ -1,0 +1,22 @@
+= Setting the New Battery Icon(display percentage) for android devices
+
+    * To turn on the percetage:
+        adb shell content insert --uri content://settings/system --bind name:s:status_bar_show_battery_percent --bind value:i:1
+
+    * Then press the enter key, and reboot your device using the following command by pressing power key
+
+        adb reboot
+
+    * Removing the New Battery Icon, if you want to revert back to the normal icon, then use this command.
+
+        adb shell content insert --uri content://settings/system --bind name:s:status_bar_show_battery_percent --bind value:i:0
+
+
+= Disable network checking(which could remove the exclamation sign on the wifi and cell signal icon)
+    * Disable the network checking machanism for android OS:
+
+        adb shell "settings put global captive_portal_detection_enabled 0"
+
+    * Also, it can be done by set an accessible web host fot android network checking machanism to receive return code:204
+
+        adb shell "settings put global captive_portal_server www.accessible_web_host.com"

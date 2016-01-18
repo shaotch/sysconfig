@@ -1,5 +1,5 @@
-java.util.Map<Thread, StackTraceElement[]> ts = Thread.getAllStackTraces();   
-StackTraceElement[] ste = ts.get(Thread.currentThread());   
-for (StackTraceElement s : ste) {   
+java.util.Map<Thread, StackTraceElement[]> ts = Thread.getAllStackTraces();
+StackTraceElement[] ste = ts.get(Thread.currentThread());
+for (StackTraceElement s : ste) {
     Log.e(TAG, s.toString());
 }

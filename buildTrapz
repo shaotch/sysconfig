@@ -1,0 +1,6 @@
+
+to exec the following before building your source trees:
+
+export USE_TRAPZ=true
+make trapzheader
+make -j8

@@ -1,0 +1,19 @@
+
+E/BinaryDictionaryGetter( 2811): Could not find a dictionary pack
+E/ActivityThread( 2811): Failed to find provider info for com.android.inputmethod.latin.dictionarypack
+E/Utils   ( 2811): Could not load native library jni_latinime
+W/dalvikvm( 2811): No implementation found for native Lcom/android/inputmethod/latin/BinaryDictionary;.openNative (Ljava/lang/String;JJIIIII)I
+W/dalvikvm( 2811): threadid=11: thread exiting with uncaught exception (group=0x40af91f8)
+E/AndroidRuntime( 2811): FATAL EXCEPTION: InitializeBinaryDictionary
+E/AndroidRuntime( 2811): java.lang.UnsatisfiedLinkError: openNative
+E/AndroidRuntime( 2811):        at com.android.inputmethod.latin.BinaryDictionary.openNative(Native Method)
+E/AndroidRuntime( 2811):        at com.android.inputmethod.latin.BinaryDictionary.loadDictionary(BinaryDictionary.java:123)
+E/AndroidRuntime( 2811):        at com.android.inputmethod.latin.BinaryDictionary.<init>(BinaryDictionary.java:103)
+E/AndroidRuntime( 2811):        at com.android.inputmethod.latin.DictionaryFactory.createDictionaryFromManager(DictionaryFactory.java:60)
+E/AndroidRuntime( 2811):        at com.android.inputmethod.latin.DictionaryFactory.createDictionaryFromManager(DictionaryFactory.java:87)
+E/AndroidRuntime( 2811):        at com.android.inputmethod.latin.Suggest$1.run(Suggest.java:163)
+D/dalvikvm( 2811): GC_CONCURRENT freed 186K, 3% free 11289K/11527K, paused 3ms+6ms
+W/SubtypeSwitcher( 2811): Update subtype to:en_US,keyboard, from: null, keyboard
+D/SubtypeSwitcher( 2811): Update shortcut IME from : <null>, <null>
+D/SubtypeSwitcher( 2811): Update shortcut IME to : <null>, <null>
+E/BinaryDictionaryGetter( 2811): Could not find a dictionary pack

@@ -1,0 +1,76 @@
+<?xml version="1.0" ?><cherrytree><node name="Note" prog_lang="custom-colors" readonly="False" tags="" unique_id="1"><rich_text>git fetch refs/heads/*:refs/heads/*
+
+
+940 W WEDDELL DR 
+QUALITY INN RM-306 
+SUNNYVALE, CA 94089-1537 
+United States
+
+
+建行 6227 0007 8112 0047 426 高丹 ￥118 - 尿不湿
+
+make systemimage-nodeps
+</rich_text><rich_text link="webs http://www.baidu.com">www.baidu.com</rich_text><rich_text>
+
+An error occurred while collecting items to be installed
+session context was:(profile=PlatformProfile, phase=org.eclipse.equinox.internal.p2.engine.phases.Collect, operand=, action=).
+Problems downloading artifact: osgi.bundle,com.python.pydev,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile8840415636294830934.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile8840415636294830934.jar
+Problems downloading artifact: osgi.bundle,com.python.pydev.analysis,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile2627274195500436000.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile2627274195500436000.jar
+Problems downloading artifact: osgi.bundle,com.python.pydev.codecompletion,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile1992394278546028952.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile1992394278546028952.jar
+Problems downloading artifact: osgi.bundle,com.python.pydev.debug,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile4341732277620688874.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile4341732277620688874.jar
+Problems downloading artifact: osgi.bundle,com.python.pydev.fastparser,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile466522806008535575.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile466522806008535575.jar
+Problems downloading artifact: osgi.bundle,com.python.pydev.refactoring,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile182591191326714716.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile182591191326714716.jar
+Problems downloading artifact: osgi.bundle,org.python.pydev,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile1101391026234757131.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile1101391026234757131.jar
+Problems downloading artifact: osgi.bundle,org.python.pydev.ast,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile2429154451876789188.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile2429154451876789188.jar
+Problems downloading artifact: osgi.bundle,org.python.pydev.core,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile310066591003113 3263.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile3100665910031133263.jar
+Problems downloading artifact: osgi.bundle,org.python.pydev.customizations,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile6554829331925904172.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile6554829331925904172.jar
+Problems downloading artifact: osgi.bundle,org.python.pydev.debug,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile6850860258415092171.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile6850860258415092171.jar
+Problems downloading artifact: osgi.bundle,org.python.pydev.django,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile312359515910427784.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile312359515910427784.jar
+Problems downloading artifact: org.eclipse.update.feature,org.python.pydev.feature,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile5163238558747137291.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile5163238558747137291.jar
+Problems downloading artifact: osgi.bundle,org.python.pydev.help,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile3703651006050936493.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile3703651006050936493.jar
+Problems downloading artifact: osgi.bundle,org.python.pydev.jython,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile5323145292709611419.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile5323145292709611419.jar
+Problems downloading artifact: osgi.bundle,org.python.pydev.parser,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile6138040766182297441.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile6138040766182297441.jar
+Problems downloading artifact: osgi.bundle,org.python.pydev.refactoring,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile3085339099187076342.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile3085339099187076342.jar
+Problems downloading artifact: osgi.bundle,org.python.pydev.shared_core,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile8619943193579672062.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile8619943193579672062.jar
+Problems downloading artifact: osgi.bundle,org.python.pydev.shared_interactive_console,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile4543493162188336190.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile4543493162188336190.jar
+Problems downloading artifact: osgi.bundle,org.python.pydev.shared_ui,3.3.3.201401272249.
+Error reading signed content:/tmp/signatureFile4380836006445749534.jar
+An error occurred while processing the signatures for the file: /tmp/signatureFile4380836006445749534.jar</rich_text></node></cherrytree>

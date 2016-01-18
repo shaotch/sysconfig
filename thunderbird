@@ -1,0 +1,5 @@
+If you spell checker doesn't work any more, you can follow this steps:
+
+Try setting mail.compose.max_recycled_windows to 0 using the config editor 
+
+    at tools -> options -> advanced -> general -> config editor

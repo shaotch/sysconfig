@@ -1,0 +1,20 @@
+    This article show the steps of Connect Android Device to PC via Wifi,
+so that ADB can be used without data cable:
+====================The 1st way================================
+
+
+step 1: set device wifi address and TCP Port
+    setprop service.adb.tcp.port 5555
+
+step 2: restart adbd
+    stop adbd
+    start adbd
+
+step 3: connect android device
+    adb connect xxx.xxx.xxx.xxx
+
+====================The 2nd way =================================
+step 1: #adb tcpip <port>
+step 2: #adb connect <device ip address:port>
+
+** Switch back to USB: #adb usb

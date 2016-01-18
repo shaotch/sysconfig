@@ -10,3 +10,7 @@ At present, there are two ways to get this fixed:
 
     LC_CTYPE="zh_CN.UTF-8
     **It will change you terminal output to Chinese.
+
+(3) To have Skype Tray Icon displayed in Ubuntu, install sni-qt package:
+
+    sudo apt-get install sni-qt:i386

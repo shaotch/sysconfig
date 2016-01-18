@@ -11,6 +11,7 @@ im-switch -z zh_CN -s fcitx
 
 == disable guest account ==
 add the line to /etc/lightdm/lightdm.conf:
+update 2015-04-20: add the line to /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
 allow-guest=false
 
 == Set count of workspace ==
@@ -19,3 +20,6 @@ gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize <n>
 
 == Set removable device/storage mount automount
 gsettings set org.gnome.desktop.media-handling automount <true | false>
+
+== Disable auto-opening nautilus window after auto-mount [For android devices is tested]
+#/$  gsettings set org.gnome.desktop.media-handling automount-open false

@@ -1,0 +1,12 @@
+1. Open and edit: /etc/modprobe.d/blacklist.conf:
+   comment the line out: blacklist pcspkr
+2. To reload the driver of speaker by:
+        sudo modprobe pcspkr
+
+Now your PC beeper should be OK.
+
+** Please also note:
+    modprobe -r  OR rmmod
+    could remove module from linux kernel
+
+

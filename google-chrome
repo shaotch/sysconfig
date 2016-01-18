@@ -1,0 +1,2 @@
+Google-chrome-stable crash:
+    sudo apt-get install libpam-systemd libsystemd-daemon0 libsystemd-login0 libudev1 systemd-services udev

@@ -1,0 +1,24 @@
+== installing the client:
+    a) Ubuntu 12.04:
+        i) $ sudo apt-get install openvpn
+    b) Ubuntu 10.04:
+        i) Register repo key: $wget -O - http://repos.openvpn.net/repos/repo-public.gpg | sudo apt-key add -
+        ii) Add repo:
+            $ cd /etc/apt/sources.list.d
+            $ sudo wget http://repos.openvpn.net/repos/apt/conf/repos.openvpn.net-lucid-stable.list
+        iii) Update and install:
+            $ sudo apt-get update
+            $ sudo apt-get install openvpn
+
+== Obtain client config:
+    a) Login at https://vpn.labcollab.net
+    b) Click on the link for "Yourself (user-locked profile)" to download your client config
+    c) Save the config file somewhere you can easily access
+
+== Run the client and connect to VPN:
+    a) $ sudo openvpn --config client.ovpn --auth-retry interact
+    b) Alterntatively you can put the line
+        "auth-retry interact"
+    in the client.ovpn config file after "auth-user-pass".
+    After that you can connect with just:
+        $ sudo openvpn --config client.ovpn
