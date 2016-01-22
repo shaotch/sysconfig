@@ -1,0 +1,7 @@
+This can install mp3 decoder for Ubuntu stock music player Rhythmbox:
+
+1. First enable the Multiverse repository
+    To do that open 'Software Sources' and click on 'software restricted by copyright(multiverse repository)';
+2. Then just open the terminal and type:
+    sudo apt-get install ubuntu-restricted-extras
+3. You may have to deal with a seriel of dialogs;
