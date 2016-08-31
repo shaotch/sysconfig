@@ -4,29 +4,9 @@
 
 1. Java层如何打印调用栈？
 
-在优化Android启动过程时，同事给出一种打印出调用栈的函数。分享一下
+Log.e(String TAG, String msg, Throwable th);
 
-    java.util.Map<Thread, StackTraceElement[]> ts = Thread.getAllStackTraces();   
-        StackTraceElement[] ste = ts.get(Thread.currentThread());   
-            for (StackTraceElement s : ste) {   
-                        android.util.Slog.e("SS     ", s.toString()); //这个是android自带的，如果没有，用其他的打印函数一样   
-                            }  
 
-为了打印出在android启动时，Zygote启动的所有java应用。在
-
-    //frameworks/base/services/java/com/android/server/am/ActivityManagerService.java   
-    private final void startProcessLocked(ProcessRecord app, String hostingType, String hostingNameStr) {   
-                //debug add   
-                java.util.Map<Thread, StackTraceElement[]> ts = Thread.getAllStackTraces();   
-                        StackTraceElement[] ste = ts.get(Thread.currentThread());   
-                                for (StackTraceElement s : ste) {   
-                                                android.util.Slog.e("SS     ", s.toString());   
-                                                        }        
-                                    }
-
-就可以在终端中使用命令logcat来查看打印出的调用栈了。
-
- 
 
 2. C/C++层如何打印调用栈？
 
@@ -35,16 +15,16 @@ Java可以方便的打印函数的调用栈。C/C++也可以。
 #include <utils/CallStack.h>
 ...
 
-void *dvmAllocRegion(size_t byteCount, int prot, const char *name) 
+void *dvmAllocRegion(size_t byteCount, int prot, const char *name)
 {
-        ...
+    ...
 #ifdef _ARM_
-                LOGW("name=%s", name);
-            android::CallStack stack;
-                stack.update(1, 100);
-                    stack.dump("");
+        LOGW("name=%s", name);
+    android::CallStack stack;
+    stack.update(1, 100);
+    stack.dump("");
 #endif
-                    ...
+    ...
 }
 
 在vm/Dvm.mk中，加入：
@@ -62,19 +42,14 @@ void *dvmAllocRegion(size_t byteCount, int prot, const char *name)
 =========================================
 >>> 如何在ANDROID JNI 的C++中打Log ===
 =========================================
-
-第一步：在对应的mk文件中加入:LOCAL_LDLIBS := -llog
-第二步：在要使用LOG的cpp文件中加入：
+1. Make file add:
+    LOCAL_LDLIBS := -llog
+2. cpp files add :
     #include <android/log.h>
     #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, "keymatch", __VA_ARGS__)
 
-第三步：这样就可以使用了：LOGD("我要看到的调试信息^_^");
-这样，在logcat端看到的输出是：
-D/keymatch（ 32）:我要看到的调试信息^_^
-如果想改变输出中的各项内容，可以参考相应颜色的标示，比如，如果想定义LOGE，就可以把上面的ANDROID_LOG_DEBUG改成ANDROID_LOG_ERROR，同理，LOGI神马的也都以此类推：
-
-
-    #define LOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, "ProjectName", __VA_ARGS__) 
+3.
+    #define LOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, "ProjectName", __VA_ARGS__)
     #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG , "ProjectName", __VA_ARGS__)
     #define LOGI(...) __android_log_print(ANDROID_LOG_INFO  , "ProjectName", __VA_ARGS__)
     #define LOGW(...) __android_log_print(ANDROID_LOG_WARN  , "ProjectName", __VA_ARGS__)
@@ -104,8 +79,8 @@ and voila! (without the hours googling why your router sees the printer but ubun
 =======================================================
 >>> linux 中文乱码问题
 =======================================================
-ubuntu vim中文乱码问题       
- 
+ubuntu vim中文乱码问题
+
 添加中文字符编码：
 $sudo vim /var/lib/locales/supported.d/local
 #添加下面的中文字符集
@@ -130,21 +105,21 @@ source /etc/vim/vimrc
 === pdf:
 $sudo apt-get install xpdf-chinese-simplified xpdf-chinese-traditional #安装pdf的中文字体
 $sudo apt-get install poppler-data #安装解决pdf中文显示乱码的软件
-$cd /etc/fonts/conf.d 
+$cd /etc/fonts/conf.d
 $sudo cp 49-sansserif.conf 49-sansserif.conf_backup #先备份下
 $sudo rm 49-sansserif.conf #删除
 在打开pdf文件，就能呢个正常显示中文了
- 
+
 
 
 === gedit：
- 
+
 gedit修改默认显示字符集
 $sudo gconf-editor
 打开的界面中选择apps->gedit2->preferences->encodings,添加需要的字符集并移动到最上方，保存就可以了。
- 
+
 === 设置默认的字符集
- 
+
 $sudo gedit /etc/environment
 #第二行是默认字符集,设为zh_CH.UTF-8
 LANG=zh_CH.UTF-8
@@ -153,94 +128,94 @@ LANG=zh_CN.UTF-8 #不能选择GBK或GB2312,终端界面中文会乱码
 LC_CTYLE=zh_CN.GB2312
 GST_ID3_TAG_ENCODING=GB2312
 $source /etc/environment使其生效
- 
+
 所有的字符集在/usr/share/i18n/charmaps目录下
 locale的书写格式为：语言[_地域[.字符集][@修正值]]
 
 方法2：
-由于在新项目里有到了一点点国际化的配置,用于在出错提示,操作提示等方面的,发现在windows下能正常显示出中文,但到了linux就不能显示中文了.搜索一翻后说是linux的中文环境变量的问题故更改之: 
+由于在新项目里有到了一点点国际化的配置,用于在出错提示,操作提示等方面的,发现在windows下能正常显示出中文,但到了linux就不能显示中文了.搜索一翻后说是linux的中文环境变量的问题故更改之:
 
-在终端里输入:set 
-Java代码  
-...  
-LANG=C  
-LANGUAGE=C  
-...  
+在终端里输入:set
+Java代码
+...
+LANG=C
+LANGUAGE=C
+...
 
-这是默认的语言编码,如果要显示中文的话就更将其更改为LANG=zh_CN,首先第一步: 
-Java代码  
-#:~ cp /usr/share/i18n/SUPPORTED /var/lib/locales/supported.d/local  
+这是默认的语言编码,如果要显示中文的话就更将其更改为LANG=zh_CN,首先第一步:
+Java代码
+#:~ cp /usr/share/i18n/SUPPORTED /var/lib/locales/supported.d/local
 
-第二步: 
-Java代码  
-vi /var/lib/locales/supported.d/local  
+第二步:
+Java代码
+vi /var/lib/locales/supported.d/local
 
-编辑文件,删除你不想要的语言系列.如我的只留en及zh系的 
+编辑文件,删除你不想要的语言系列.如我的只留en及zh系的
 
-第三步：重新生成locale支持文件 
-Java代码  
-sudo locale-gen --purge  
+第三步：重新生成locale支持文件
+Java代码
+sudo locale-gen --purge
 
-此时会重新生成locale文件,慢慢等待一下至运行完成. 
+此时会重新生成locale文件,慢慢等待一下至运行完成.
 
-第四步:设置locale文件,在终端里输入locale命令后回车,将显示出来的内容复制,然后再打开/etc/environment文件,将内容粘贴末尾.保存退出.如我的是这样的: 
-Java代码  
-PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"  
-LANGUAGE="zh_CN:zh:en_US:en"  
-LC_ALL=zh_CN.UTF-8  
-LANG=zh_CN.UTF-8  
-GST_ID3_TAG_ENCODING=UTF-8  
-   
-LANG=zh_CN  
-LANGUAGE=zh_CN  
-LC_CTYPE="zh_CN"  
-LC_NUMERIC="zh_CN"  
-LC_TIME="zh_CN"  
-LC_COLLATE="zh_CN"  
-LC_MONETARY="zh_CN"  
-LC_MESSAGES="zh_CN"  
-LC_PAPER="zh_CN"  
-LC_NAME="zh_CN"  
-LC_ADDRESS="zh_CN"  
-LC_TELEPHONE="zh_CN"  
-LC_MEASUREMENT="zh_CN"  
-LC_IDENTIFICATION="zh_CN"  
-   
-LC_CTYPE=zh_CN.UTF-8  
+第四步:设置locale文件,在终端里输入locale命令后回车,将显示出来的内容复制,然后再打开/etc/environment文件,将内容粘贴末尾.保存退出.如我的是这样的:
+Java代码
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
+LANGUAGE="zh_CN:zh:en_US:en"
+LC_ALL=zh_CN.UTF-8
+LANG=zh_CN.UTF-8
+GST_ID3_TAG_ENCODING=UTF-8
 
+LANG=zh_CN
+LANGUAGE=zh_CN
+LC_CTYPE="zh_CN"
+LC_NUMERIC="zh_CN"
+LC_TIME="zh_CN"
+LC_COLLATE="zh_CN"
+LC_MONETARY="zh_CN"
+LC_MESSAGES="zh_CN"
+LC_PAPER="zh_CN"
+LC_NAME="zh_CN"
+LC_ADDRESS="zh_CN"
+LC_TELEPHONE="zh_CN"
+LC_MEASUREMENT="zh_CN"
+LC_IDENTIFICATION="zh_CN"
 
-然后退出重新登录,在终端里再输入locale,会发现LANG=C已经更改为LANG=zh_CN.再查看下网站就可以成功显示到中文了. 
-
-另,由于vi编辑器不太会用,在ubuntu servcr下还可以用pico这个编辑器来代替,至于最后发现,可能前面的一二三步都不需要做,只需要第四步即可完成.但这没经测试的. 
+LC_CTYPE=zh_CN.UTF-8
 
 
+然后退出重新登录,在终端里再输入locale,会发现LANG=C已经更改为LANG=zh_CN.再查看下网站就可以成功显示到中文了.
+
+另,由于vi编辑器不太会用,在ubuntu servcr下还可以用pico这个编辑器来代替,至于最后发现,可能前面的一二三步都不需要做,只需要第四步即可完成.但这没经测试的.
 
 
-=== Java代码  
-linux 中文显示乱码解决办法, 其实是有多种情况的, 有一部分是由于终端默认的设置造成的  
-  
-vi /etc/sysconfig/i18n  
-  
-将内容改为  
-LANG=”zh_CN.GB18030″  
-LANGUAGE=”zh_CN.GB18030:zh_CN.GB2312:zh_CN”  
-SUPPORTED=”zh_CN.GB18030:zh_CN:zh:en_US.UTF-8:en_US:en”  
-SYSFONT=”lat0-sun16″  
-  
-这样中文在SSH,telnet终端一般可以正常显示了。  
-  
-如果还是不行，可以这么做：  
-  
-1、console终端乱码  
-  
-在/etc/profile文件的最后一行添加如下内容：  
-  
-export LC_ALL="zh_CN.GB18030"  
-  
-2、xwindow终端乱码  
-  
-在/etc/sysconfig/i18n文件的最后一行添加如下内容：  
-  
-export LC_ALL="zh_CN.GB18030"  
+
+
+=== Java代码
+linux 中文显示乱码解决办法, 其实是有多种情况的, 有一部分是由于终端默认的设置造成的
+
+vi /etc/sysconfig/i18n
+
+将内容改为
+LANG=”zh_CN.GB18030″
+LANGUAGE=”zh_CN.GB18030:zh_CN.GB2312:zh_CN”
+SUPPORTED=”zh_CN.GB18030:zh_CN:zh:en_US.UTF-8:en_US:en”
+SYSFONT=”lat0-sun16″
+
+这样中文在SSH,telnet终端一般可以正常显示了。
+
+如果还是不行，可以这么做：
+
+1、console终端乱码
+
+在/etc/profile文件的最后一行添加如下内容：
+
+export LC_ALL="zh_CN.GB18030"
+
+2、xwindow终端乱码
+
+在/etc/sysconfig/i18n文件的最后一行添加如下内容：
+
+export LC_ALL="zh_CN.GB18030"
 
 ======================================================================
