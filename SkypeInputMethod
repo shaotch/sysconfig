@@ -5,6 +5,12 @@ At present, there are two ways to get this fixed:
     LANGUAGE="en_US.UTF-8:"
     This way is really good, no side effect with this change.
 
+    * another case :
+        Chinese IME cannot be actived maybe casued by the absence of libs:
+            fcitx-libs
+            fcitx-libs-qt
+            fcitx-libs-qt5
+
 
 (2) Add the following to /etc/environment
 
