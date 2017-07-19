@@ -20,3 +20,7 @@
     * Also, it can be done by set an accessible web host fot android network checking machanism to receive return code:204
 
         adb shell "settings put global captive_portal_server www.accessible_web_host.com"
+
+    * For Android 7.1.2 :
+        adb shell settings put global captive_portal_mode 0
+        adb shell settings put global captive_portal_https_url

@@ -14,3 +14,8 @@ For manifest: Gerrit4/acos/amazon/manifest.git
     repo init -u http://gerrit4/acos/amazon/manifest.git -b acos/jem/jb-mr1-release --reference=/usr/shaotch/mirrors/acos_jem_jb-mr1-release && repo sync -j4
     repo init -u http://gerrit4/acos/amazon/manifest.git -b acos/nexus/jb-mr1-release --reference=/usr/shaotch/mirrors/acos_nexus_jb-mr1-release && repo sync -j4
     repo init -u http://gerrit4/acos/amazon/manifest.git -b acos/msm8974/jb-mr1-release --reference=/usr/shaotch/mirrors/acos_msm8974_jb-mr1-release && repo sync -j4
+
+----------------------------------------------
+Dump the manifest with revision:
+
+    repo manifest -r -o snapshot.xml
