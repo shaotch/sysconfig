@@ -1,0 +1,9 @@
+## Virtaul Box guest cannot find USB device:
+    $ sudo usermod -a -G vboxusers <username>
+
+  if no group name 'vboxuser' then you have to create it by:
+    1. sudo vim /etc/group
+    2. append one line at the bottom of the file with
+        vboxusers:x:<group_id>:<username>
+
+  Then logout you host;
